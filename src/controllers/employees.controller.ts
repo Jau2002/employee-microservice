@@ -45,3 +45,10 @@ export async function builderEmployee(
 	});
 	return createEmployee;
 }
+
+export async function removeEmployee(employee: Employee): Promise<void> {
+	const employeeRepository: Repository<Employee> =
+		AppDataSource.getRepository(Employee);
+
+	await employeeRepository.remove(employee);
+}

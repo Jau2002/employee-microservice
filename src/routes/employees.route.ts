@@ -3,6 +3,7 @@ import {
 	builderEmployee,
 	findAllEmployees,
 	findByCodeEmployee,
+	removeEmployee,
 } from '../controllers/employees.controller';
 import type Employee from '../entity/Employee';
 
@@ -102,6 +103,32 @@ employeesRoute.patch(
 				data: employee,
 				before: employeeFound,
 			});
+		} catch (err) {
+			return res.status(404).json({ message: (err as Error).message });
+		}
+	}
+);
+
+employeesRoute.delete(
+	'/:code',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { code } = req.params;
+		try {
+			const employeeFound: Employee | null = await findByCodeEmployee(
+				parseInt(code ?? '0')
+			);
+
+			if (employeeFound !== null) {
+				await removeEmployee(employeeFound);
+			}
+
+			return !employeeFound
+				? res
+						.status(400)
+						.json({ message: 'The employee does not exist in the database' })
+				: res.status(204).json({
+						message: `'The employee identified with: ${employeeFound.code} has been deleted successfully'`,
+				  });
 		} catch (err) {
 			return res.status(404).json({ message: (err as Error).message });
 		}
