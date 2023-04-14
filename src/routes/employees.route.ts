@@ -75,4 +75,37 @@ employeesRoute.post(
 	}
 );
 
+employeesRoute.patch(
+	'/:code',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { params, body } = req;
+
+		const { code } = params;
+		try {
+			const employeeFound: Employee | null = await findByCodeEmployee(
+				parseInt(code ?? '0')
+			);
+
+			if (!employeeFound) {
+				return res
+					.status(400)
+					.json({ message: 'The employee does not exist in the database' });
+			}
+
+			const employee: Employee = await builderEmployee(
+				body,
+				employeeFound.code
+			);
+
+			return res.status(200).json({
+				message: 'Employee found successfully',
+				data: employee,
+				before: employeeFound,
+			});
+		} catch (err) {
+			return res.status(404).json({ message: (err as Error).message });
+		}
+	}
+);
+
 export default employeesRoute;
