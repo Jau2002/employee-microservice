@@ -1,0 +1,156 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Mi API",
+		"version": "1.0.0",
+		"description": "Descripción de mi API"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3000"
+		}
+	],
+	"paths": {
+		"/usuarios": {
+			"get": {
+				"summary": "Obtener todos los usuarios",
+				"description": "Retorna una lista con todos los usuarios",
+				"responses": {
+					"200": {
+						"description": "Lista de usuarios"
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear un nuevo usuario",
+				"description": "Crea un nuevo usuario con los datos proporcionados en el cuerpo de la petición",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Usuario"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "El usuario ha sido creado correctamente"
+					}
+				}
+			}
+		},
+		"/usuarios/{id}": {
+			"get": {
+				"summary": "Obtener un usuario por ID",
+				"description": "Retorna un usuario específico según el ID proporcionado en la ruta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID del usuario a obtener",
+						"schema": {
+							"type": "integer"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "El usuario ha sido encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Usuario"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "El usuario no ha sido encontrado"
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar un usuario por ID",
+				"description": "Actualiza los datos de un usuario específico según el ID proporcionado en la ruta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID del usuario a actualizar",
+						"schema": {
+							"type": "integer"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Usuario"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "El usuario ha sido actualizado correctamente"
+					},
+					"404": {
+						"description": "El usuario no ha sido encontrado"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar un usuario por ID",
+				"description": "Elimina un usuario específico según el ID proporcionado en la ruta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID del usuario a eliminar",
+						"schema": {
+							"type": "integer"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "El usuario ha sido eliminado correctamente"
+					},
+					"404": {
+						"description": "El usuario no ha sido encontrado"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Usuario": {
+				"type": "object",
+				"required": ["nombre", "email", "edad"],
+				"properties": {
+					"nombre": {
+						"type": "string",
+						"description": "Nombre del usuario"
+					},
+					"email": {
+						"type": "string",
+						"format": "email",
+						"description": "Correo electrónico del usuario"
+					},
+					"edad": {
+						"type": "integer",
+						"description": "Edad del usuario"
+					}
+				}
+			}
+		}
+	}
+}
