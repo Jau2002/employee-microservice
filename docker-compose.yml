@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    container_name: postgresql-em
+    image: 'postgres:15.2-alpine3.17'
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+    ports:
+      - '5432:5432'
+    volumes:
+      - /var/lib/postgresql:/var/lib/postgresql/data
+
+  server:
+    build: .
+    container_name: node-em
+    depends_on:
+      - db
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      PORT: ${PORT}
+    ports:
+      - '1234:${PORT}'
