@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import {
+	builderEmployee,
 	findAllEmployees,
 	findByCodeEmployee,
 } from '../controllers/employees.controller';
@@ -39,6 +40,35 @@ employeesRoute.get(
 				: res
 						.status(400)
 						.json({ message: 'The employee does not exist in the database' });
+		} catch (err) {
+			return res.status(404).json({ message: (err as Error).message });
+		}
+	}
+);
+
+employeesRoute.post(
+	'/',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { body } = req;
+
+		const { code } = body;
+		try {
+			const employeeFound: Employee | null = await findByCodeEmployee(
+				parseInt(code ?? '0')
+			);
+
+			if (employeeFound) {
+				return res.status(409).json({
+					message: `the employee with code: ${employeeFound.code} already exists in the database`,
+				});
+			}
+
+			const employee: Employee = await builderEmployee(body);
+
+			return res.status(200).json({
+				message: 'The employee has been created successfully',
+				data: employee,
+			});
 		} catch (err) {
 			return res.status(404).json({ message: (err as Error).message });
 		}
