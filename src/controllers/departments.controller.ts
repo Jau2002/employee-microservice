@@ -39,3 +39,7 @@ export async function constructDepartment({
 	});
 	return createDepartment;
 }
+
+export async function removeDepartment(department: Department): Promise<void> {
+	await departmentRepository.remove(department);
+}

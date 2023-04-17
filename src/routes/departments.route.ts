@@ -1,8 +1,9 @@
 import { Router, type Request, type Response } from 'express';
 import {
-  constructDepartment,
-  getDepartmentsByCode,
-  listAllDepartments,
+	constructDepartment,
+	getDepartmentsByCode,
+	listAllDepartments,
+	removeDepartment,
 } from '../controllers/departments.controller';
 import type Department from '../entity/Department';
 
@@ -96,6 +97,32 @@ departmentsRoute.patch(
 						data: department,
 				  })
 				: res.status(400).json({ message: 'The department does not exist' });
+		} catch (err) {
+			return res.status(404).json({ message: (err as Error).message });
+		}
+	}
+);
+
+departmentsRoute.delete(
+	'/:code',
+	async (req: Request, res: Response): Promise<Response> => {
+		const { code } = req.params;
+		try {
+			const foundDepartment: Department | null = await getDepartmentsByCode(
+				parseInt(code ?? '0')
+			);
+
+			if (foundDepartment !== null) {
+				await removeDepartment(foundDepartment);
+			}
+
+			return !foundDepartment
+				? res.status(400).json({ message: 'The department does not exist' })
+				: res
+						.status(204)
+						.json({
+							message: `The employee identified with: ${foundDepartment.code} has been deleted successfully`,
+						});
 		} catch (err) {
 			return res.status(404).json({ message: (err as Error).message });
 		}
