@@ -1,8 +1,8 @@
 import { Router, type Request, type Response } from 'express';
 import {
-  constructDepartment,
-  getDepartmentsByCode,
-  listAllDepartments,
+	constructDepartment,
+	getDepartmentsByCode,
+	listAllDepartments,
 } from '../controllers/departments.controller';
 import type Department from '../entity/Department';
 
@@ -61,11 +61,9 @@ departmentsRoute.post(
 			const newDepartment: Department = await constructDepartment(body);
 
 			return foundDepartment
-				? res
-						.status(409)
-						.json({
-							message: `the department with code: ${foundDepartment?.code} already exists in the database`,
-						})
+				? res.status(409).json({
+						message: `the department with code: ${foundDepartment?.code} already exists in the database`,
+				  })
 				: res.status(200).json({
 						message: 'The department has been created successfully',
 						data: newDepartment,
@@ -76,4 +74,30 @@ departmentsRoute.post(
 	}
 );
 
+departmentsRoute.patch(
+	'/:code',
+	async (req: Request, res: Response): Promise<Response> => {
+		const {
+			params: { code },
+			body,
+		} = req;
+		try {
+			const foundDepartment: Department | null = await getDepartmentsByCode(
+				parseInt(code ?? '0')
+			);
+
+			const department = await constructDepartment(body);
+
+			return foundDepartment
+				? res.status(200).json({
+						message: '',
+						before: foundDepartment,
+						data: department,
+				  })
+				: res.status(400).json({ message: 'The department does not exist' });
+		} catch (err) {
+			return res.status(404).json({ message: (err as Error).message });
+		}
+	}
+);
 export default departmentsRoute;
