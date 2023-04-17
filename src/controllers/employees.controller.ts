@@ -3,7 +3,7 @@ import AppDataSource from '../config/db';
 import Employee from '../entity/Employee';
 
 const employeeRepository: Repository<Employee> =
-		AppDataSource.getRepository(Employee);
+	AppDataSource.getRepository(Employee);
 
 export async function findAllEmployees(): Promise<Employee[]> {
 	const allEmployees: Employee[] = await employeeRepository.find({

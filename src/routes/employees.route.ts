@@ -69,11 +69,11 @@ employeesRoute.post(
 			const foundDepartment: Department | null = await getDepartmentsByCode(
 				parseInt(department ?? '0')
 			);
-			
+
 			if (!foundDepartment) {
 				return res.status(400).json({
-					message: 'The department does not exist'
-				})
+					message: 'The department does not exist',
+				});
 			}
 
 			const employee: Employee = await builderEmployee(body);
@@ -95,7 +95,7 @@ employeesRoute.patch(
 
 		const { code } = params;
 
-		const {department} = body
+		const { department } = body;
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')
@@ -110,11 +110,11 @@ employeesRoute.patch(
 			const foundDepartment: Department | null = await getDepartmentsByCode(
 				parseInt(department ?? '0')
 			);
-			
+
 			if (!foundDepartment) {
 				return res.status(400).json({
-					message: 'The department does not exist'
-				})
+					message: 'The department does not exist',
+				});
 			}
 
 			const employee: Employee = await builderEmployee(
