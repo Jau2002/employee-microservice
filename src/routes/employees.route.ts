@@ -14,9 +14,9 @@ const employeesRoute: Router = Router();
 employeesRoute.get(
 	'/',
 	async (_: Request, res: Response): Promise<Response> => {
-		const employees: Employee[] = await findAllEmployees();
-
 		try {
+			const employees: Employee[] = await findAllEmployees();
+
 			return res.status(200).json({
 				message: `${employees.length} Employees found`,
 				data: employees,
@@ -31,11 +31,10 @@ employeesRoute.get(
 	'/:code',
 	async (req: Request, res: Response): Promise<Response> => {
 		const { code } = req.params;
-
-		const employee: Employee | null = await findByCodeEmployee(
-			parseInt(code ?? '0')
-		);
 		try {
+			const employee: Employee | null = await findByCodeEmployee(
+				parseInt(code ?? '0')
+			);
 			return employee
 				? res
 						.status(200)
@@ -52,9 +51,10 @@ employeesRoute.get(
 employeesRoute.post(
 	'/',
 	async (req: Request, res: Response): Promise<Response> => {
-		const { body } = req;
-
-		const { code, department } = body;
+		const {
+			body: { code, department },
+			body,
+		} = req;
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')
@@ -62,7 +62,7 @@ employeesRoute.post(
 
 			if (employeeFound) {
 				return res.status(409).json({
-					message: `the employee with code: ${employeeFound.code} already exists in the database`,
+					message: `The employee with code: ${employeeFound.code} already exists in the database`,
 				});
 			}
 
@@ -91,11 +91,11 @@ employeesRoute.post(
 employeesRoute.patch(
 	'/:code',
 	async (req: Request, res: Response): Promise<Response> => {
-		const { params, body } = req;
-
-		const { code } = params;
-
-		const { department } = body;
+		const {
+			params: { code },
+			body,
+			body: { department },
+		} = req;
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')

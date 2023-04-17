@@ -1,8 +1,8 @@
 import { Router, type Request, type Response } from 'express';
 import {
-	constructDepartment,
-	getDepartmentsByCode,
-	listAllDepartments,
+  constructDepartment,
+  getDepartmentsByCode,
+  listAllDepartments,
 } from '../controllers/departments.controller';
 import type Department from '../entity/Department';
 
@@ -11,8 +11,9 @@ const departmentsRoute: Router = Router();
 departmentsRoute.get(
 	'/',
 	async (_: Request, res: Response): Promise<Response> => {
-		const departments: Department[] = await listAllDepartments();
 		try {
+			const departments: Department[] = await listAllDepartments();
+
 			return res.status(200).json({
 				message: `${departments.length} Employees found`,
 				data: departments,
@@ -27,11 +28,11 @@ departmentsRoute.get(
 	'/:code',
 	async (req: Request, res: Response): Promise<Response> => {
 		const { code } = req.params;
-
-		const foundDepartment: Department | null = await getDepartmentsByCode(
-			parseInt(code ?? '0')
-		);
 		try {
+			const foundDepartment: Department | null = await getDepartmentsByCode(
+				parseInt(code ?? '0')
+			);
+
 			return foundDepartment
 				? res.status(200).json({
 						message: 'Employee found successfully',
@@ -49,10 +50,10 @@ departmentsRoute.get(
 departmentsRoute.post(
 	'/',
 	async (req: Request, res: Response): Promise<Response> => {
-		const { body } = req;
-
-		const { code } = body;
-
+		const {
+			body: { code },
+			body,
+		} = req;
 		try {
 			const foundDepartment: Department | null = await getDepartmentsByCode(
 				parseInt(code ?? '0')
@@ -62,7 +63,7 @@ departmentsRoute.post(
 
 			return foundDepartment
 				? res.status(409).json({
-						message: `the department with code: ${foundDepartment?.code} already exists in the database`,
+						message: `The department with code: ${foundDepartment?.code} already exists in the database`,
 				  })
 				: res.status(200).json({
 						message: 'The department has been created successfully',
@@ -90,7 +91,7 @@ departmentsRoute.patch(
 
 			return foundDepartment
 				? res.status(200).json({
-						message: '',
+						message: 'Department found successfully',
 						before: foundDepartment,
 						data: department,
 				  })
