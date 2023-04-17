@@ -24,3 +24,18 @@ export async function getDepartmentsByCode(
 	});
 	return findDepartment;
 }
+
+export async function constructDepartment({
+	code,
+	employees,
+	estimate,
+	name,
+}: Department): Promise<Department> {
+	const createDepartment: Department = await departmentRepository.save({
+		code,
+		employees,
+		estimate,
+		name,
+	});
+	return createDepartment;
+}
