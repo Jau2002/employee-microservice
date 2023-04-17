@@ -9,7 +9,7 @@
 //      '-----'
 //      |_) |_)
 
-import AppDataSource from './db/dbConfig';
+import AppDataSource from './config/db';
 import app from './middlewares/app';
 import type { Serve } from './types';
 
