@@ -1,8 +1,8 @@
 import { Router, type Request, type Response } from 'express';
 import {
-	constructDepartment,
-	getDepartmentsByCode,
-	listAllDepartments,
+  constructDepartment,
+  getDepartmentsByCode,
+  listAllDepartments,
 } from '../controllers/departments.controller';
 import type Department from '../entity/Department';
 
@@ -18,7 +18,7 @@ departmentsRoute.get(
 				data: departments,
 			});
 		} catch (err) {
-			return res.status(400).json({ message: (err as Error).message });
+			return res.status(404).json({ message: (err as Error).message });
 		}
 	}
 );
@@ -41,7 +41,7 @@ departmentsRoute.get(
 						.status(400)
 						.json({ message: 'The department does not exist in the database' });
 		} catch (err) {
-			return res.status(400).json({ message: (err as Error).message });
+			return res.status(404).json({ message: (err as Error).message });
 		}
 	}
 );
@@ -71,7 +71,7 @@ departmentsRoute.post(
 						data: newDepartment,
 				  });
 		} catch (err) {
-			return res.status(400).json({ message: (err as Error).message });
+			return res.status(404).json({ message: (err as Error).message });
 		}
 	}
 );
