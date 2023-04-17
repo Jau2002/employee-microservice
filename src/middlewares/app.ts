@@ -2,7 +2,8 @@ import cors from 'cors';
 import express, { type Application } from 'express';
 import morganBody from 'morgan-body';
 import swaggerUi from 'swagger-ui-express';
-import rootRoute from '../routes/root.router';
+import departmentsRoute from '../routes/departments.route';
+import employeesRoute from '../routes/employees.route';
 import type { CorsOptions, MorganBodyOptions } from './middlewares';
 import swaggerDocument from './swagger.json';
 
@@ -31,6 +32,8 @@ morganBody(app, morganBodyOptions);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/', rootRoute);
+app.use('/employees', departmentsRoute)
+
+app.use('/departments', employeesRoute)
 
 export default app;
