@@ -1,5 +1,5 @@
 import type { Repository } from 'typeorm';
-import AppDataSource from '../db/dbConfig';
+import AppDataSource from '../config/db';
 import Employee from '../entity/Employee';
 
 export async function findAllEmployees(): Promise<Employee[]> {
