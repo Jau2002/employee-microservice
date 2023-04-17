@@ -4,9 +4,9 @@ import Department from '../../entity/Department';
 
 async function listAllDepartments(): Promise<Department[]> {
 	const departmentRepository: Repository<Department> =
-	AppDataSource.getRepository(Department);
-  
-  const allEmployees: Department[] = await departmentRepository.find({
+		AppDataSource.getRepository(Department);
+
+	const allEmployees: Department[] = await departmentRepository.find({
 		order: {
 			name: 'ASC',
 		},
@@ -14,4 +14,4 @@ async function listAllDepartments(): Promise<Department[]> {
 	return allEmployees;
 }
 
-export default listAllDepartments
+export default listAllDepartments;

@@ -7,14 +7,14 @@ import postDepartment from './departments/postDepartment';
 
 const departmentsRoute: Router = Router();
 
-departmentsRoute.use(getAllDepartments)
+departmentsRoute.use(getAllDepartments);
 
-departmentsRoute.use(getFindFirstDepartment)
+departmentsRoute.use(getFindFirstDepartment);
 
-departmentsRoute.use(postDepartment)
+departmentsRoute.use(postDepartment);
 
-departmentsRoute.use(patchDepartment)
+departmentsRoute.use(patchDepartment);
 
-departmentsRoute.use(deleteDepartment)
+departmentsRoute.use(deleteDepartment);
 
 export default departmentsRoute;

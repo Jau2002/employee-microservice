@@ -8,9 +8,9 @@ async function constructDepartment({
 	estimate,
 	name,
 }: Department): Promise<Department> {
-  const departmentRepository: Repository<Department> =
-	AppDataSource.getRepository(Department);
-  
+	const departmentRepository: Repository<Department> =
+		AppDataSource.getRepository(Department);
+
 	const createDepartment: Department = await departmentRepository.save({
 		code,
 		employees,
@@ -20,4 +20,4 @@ async function constructDepartment({
 	return createDepartment;
 }
 
-export default constructDepartment
+export default constructDepartment;

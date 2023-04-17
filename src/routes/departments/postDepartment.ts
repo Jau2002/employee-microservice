@@ -3,7 +3,6 @@ import constructDepartment from '../../controllers/departments/constructDepartme
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import type Department from '../../entity/Department';
 
-
 const postDepartment: Router = Router();
 
 postDepartment.post(
@@ -34,4 +33,4 @@ postDepartment.post(
 	}
 );
 
-export default postDepartment
+export default postDepartment;

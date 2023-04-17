@@ -2,7 +2,6 @@ import { Router, type Request, type Response } from 'express';
 import listAllDepartments from '../../controllers/departments/listAllDepartments.controller';
 import type Department from '../../entity/Department';
 
-
 const getAllDepartments: Router = Router();
 
 getAllDepartments.get(
@@ -21,4 +20,4 @@ getAllDepartments.get(
 	}
 );
 
-export default getAllDepartments
+export default getAllDepartments;

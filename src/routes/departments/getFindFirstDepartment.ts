@@ -2,7 +2,6 @@ import { Router, type Request, type Response } from 'express';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import type Department from '../../entity/Department';
 
-
 const getFindFirstDepartment: Router = Router();
 
 getFindFirstDepartment.get(
@@ -28,4 +27,4 @@ getFindFirstDepartment.get(
 	}
 );
 
-export default getFindFirstDepartment
+export default getFindFirstDepartment;

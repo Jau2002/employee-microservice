@@ -32,4 +32,4 @@ patchDepartment.patch(
 	}
 );
 
-export default patchDepartment
+export default patchDepartment;

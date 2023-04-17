@@ -32,8 +32,8 @@ morganBody(app, morganBodyOptions);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/employees', departmentsRoute)
+app.use('/employees', departmentsRoute);
 
-app.use('/departments', employeesRoute)
+app.use('/departments', employeesRoute);
 
 export default app;
