@@ -1,10 +1,12 @@
 import { Router, type Request, type Response } from 'express';
+import { getDepartmentsByCode } from '../controllers/departments.controller';
 import {
 	builderEmployee,
 	findAllEmployees,
 	findByCodeEmployee,
 	removeEmployee,
 } from '../controllers/employees.controller';
+import type Department from '../entity/Department';
 import type Employee from '../entity/Employee';
 
 const employeesRoute: Router = Router();
@@ -52,7 +54,7 @@ employeesRoute.post(
 	async (req: Request, res: Response): Promise<Response> => {
 		const { body } = req;
 
-		const { code } = body;
+		const { code, department } = body;
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')
@@ -62,6 +64,16 @@ employeesRoute.post(
 				return res.status(409).json({
 					message: `the employee with code: ${employeeFound.code} already exists in the database`,
 				});
+			}
+
+			const foundDepartment: Department | null = await getDepartmentsByCode(
+				parseInt(department ?? '0')
+			);
+			
+			if (!foundDepartment) {
+				return res.status(400).json({
+					message: 'The department does not exist'
+				})
 			}
 
 			const employee: Employee = await builderEmployee(body);
