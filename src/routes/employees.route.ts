@@ -94,6 +94,8 @@ employeesRoute.patch(
 		const { params, body } = req;
 
 		const { code } = params;
+
+		const {department} = body
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')
@@ -103,6 +105,16 @@ employeesRoute.patch(
 				return res
 					.status(400)
 					.json({ message: 'The employee does not exist in the database' });
+			}
+
+			const foundDepartment: Department | null = await getDepartmentsByCode(
+				parseInt(department ?? '0')
+			);
+			
+			if (!foundDepartment) {
+				return res.status(400).json({
+					message: 'The department does not exist'
+				})
 			}
 
 			const employee: Employee = await builderEmployee(
