@@ -70,8 +70,8 @@
 		},
 		"/employees/{code}": {
 			"get": {
-				"summary": "Get an Employee for code",
-				"description": "Returns a specific user based on the ID provided in the route",
+				"summary": "Get an employee for code",
+				"description": "Returns a specific employee based on the code provided in the route",
 				"parameters": [
 					{
 						"code": {
@@ -87,7 +87,7 @@
 							"application/json": {
 								"schema": {
 									"type": "object",
-									"$ref": "#/components/schemas/Usuario"
+									"$ref": "#/components/schemas/Employee"
 								}
 							}
 						}
@@ -158,6 +158,143 @@
 					}
 				}
 			}
+		},
+		"/departments": {
+			"get": {
+				"summary": "Get all departments",
+				"description": "Return a message with all the departments there are and data with all the departments",
+				"responses": {
+					"200": {
+						"description": "N Employees found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"$ref": "#/components/schemas/Department"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"post": {
+			"summary": "Create new department",
+			"description": "Create a new departments with the data provided in the request body",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"$ref": "#/components/schemas/Department"
+						}
+					}
+				}
+			},
+			"responses": {
+				"201": {
+					"description": "The department has been created successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"$ref": "#/components/schemas/Department"
+							}
+						}
+					}
+				},
+				"409": {
+					"description": "The departments with code: N already exists in the database"
+				}
+			}
+		},
+		"/departments/{code}": {
+			"get": {
+				"summary": "Get an department for code",
+				"description": "Returns a specific department based on the code provided in the route",
+				"parameters": [
+					{
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the department with a width of 10"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "The department has been found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Department"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The department does not exist"
+					}
+				}
+			},
+			"patch": {
+				"summary": "Update a department by code",
+				"description": "Updates the data for a specific department based on the code provided in the route",
+				"parameters": [
+					{
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the department with a width of 10"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Department"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Department found successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Department"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "The department does not exist"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete a department by code",
+				"description": "Delete a specific department based on the ID provided in the route",
+				"parameters": [
+					{
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the department with a width of 10"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The department identified with: N has been deleted successfully"
+					},
+					"400": {
+						"description": "The department does not exist in the database"
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -196,6 +333,28 @@
 					"department": {
 						"type": "integer",
 						"description": "foreign code of department with a width of 10"
+					}
+				}
+			},
+			"Department": {
+				"type": "object",
+				"required": ["code", "name", "estimate"],
+				"properties": {
+					"code": {
+						"type": "integer",
+						"description": "Primary id of the department with a width of 10"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name the department with max length of 100"
+					},
+					"estimate": {
+						"type": "integer",
+						"description": "Float the department"
+					},
+					"employees": {
+						"type": "array",
+						"description": "Number for employees code in department"
 					}
 				}
 			}
