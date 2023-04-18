@@ -22,7 +22,7 @@ patchEmployee.patch(
 
 			if (!employeeFound) {
 				return res
-					.status(400)
+					.status(409)
 					.json({ message: 'The employee does not exist in the database' });
 			}
 

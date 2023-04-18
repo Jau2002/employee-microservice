@@ -1,88 +1,110 @@
 {
 	"openapi": "3.0.0",
 	"info": {
-		"title": "Mi API",
+		"title": "Employee Microservice",
 		"version": "1.0.0",
-		"description": "Descripción de mi API"
+		"description": "This text describes an API that serves as a microservice for managing employee and department information in organizations. The API enables users to perform various operations such as retrieving, creating, updating, and deleting data, and also supports authentication and authorization mechanisms to ensure data security. Additionally, the API is designed to be scalable, reliable, and user-friendly, making it a useful tool for managing employee and department data in any organization."
+	},
+	"swaggerRouter": {
+		"defaultController": "Employee",
+		"controllers": {},
+		"useStubs": false
 	},
 	"servers": [
 		{
-			"url": "http://localhost:3000"
+			"url": "http://localhost:1234"
 		}
 	],
 	"paths": {
-		"/usuarios": {
+		"/employees": {
 			"get": {
-				"summary": "Obtener todos los usuarios",
-				"description": "Retorna una lista con todos los usuarios",
+				"summary": "Get all employees",
+				"description": "Return a message with all the employees there are and data with all the employees",
 				"responses": {
 					"200": {
-						"description": "Lista de usuarios"
+						"description": "N Employees found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"$ref": "#/components/schemas/Employee"
+								}
+							}
+						}
 					}
 				}
 			},
 			"post": {
-				"summary": "Crear un nuevo usuario",
-				"description": "Crea un nuevo usuario con los datos proporcionados en el cuerpo de la petición",
+				"summary": "Create new employee",
+				"description": "Create a new employee with the data provided in the request body",
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Usuario"
+								"$ref": "#/components/schemas/Employee"
 							}
 						}
 					}
 				},
 				"responses": {
 					"201": {
-						"description": "El usuario ha sido creado correctamente"
+						"description": "The employee has been created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Employee"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "The employee with code: N already exists in the database"
+					},
+					"400": {
+						"description": "The department does not exist"
 					}
 				}
 			}
 		},
-		"/usuarios/{id}": {
+		"/employees/{code}": {
 			"get": {
-				"summary": "Obtener un usuario por ID",
-				"description": "Retorna un usuario específico según el ID proporcionado en la ruta",
+				"summary": "Get an Employee for code",
+				"description": "Returns a specific user based on the ID provided in the route",
 				"parameters": [
 					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"description": "ID del usuario a obtener",
-						"schema": {
-							"type": "integer"
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the employee with a width of 10"
 						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "El usuario ha sido encontrado",
+						"description": "The employee has been found",
 						"content": {
 							"application/json": {
 								"schema": {
+									"type": "object",
 									"$ref": "#/components/schemas/Usuario"
 								}
 							}
 						}
 					},
-					"404": {
-						"description": "El usuario no ha sido encontrado"
+					"400": {
+						"description": "The employee does not exist in the database"
 					}
 				}
 			},
-			"put": {
-				"summary": "Actualizar un usuario por ID",
-				"description": "Actualiza los datos de un usuario específico según el ID proporcionado en la ruta",
+			"patch": {
+				"summary": "Update a employee by code",
+				"description": "Updates the data for a specific employee based on the code provided in the route",
 				"parameters": [
 					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"description": "ID del usuario a actualizar",
-						"schema": {
-							"type": "integer"
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the employee with a width of 10"
 						}
 					}
 				],
@@ -91,40 +113,48 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Usuario"
+								"$ref": "#/components/schemas/Employee"
 							}
 						}
 					}
 				},
 				"responses": {
 					"200": {
-						"description": "El usuario ha sido actualizado correctamente"
+						"description": "Employee found successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/Employee"
+								}
+							}
+						}
 					},
-					"404": {
-						"description": "El usuario no ha sido encontrado"
+					"400": {
+						"description": "The department does not exist"
+					},
+					"409": {
+						"description": "The employee does not exist in the database"
 					}
 				}
 			},
 			"delete": {
-				"summary": "Eliminar un usuario por ID",
-				"description": "Elimina un usuario específico según el ID proporcionado en la ruta",
+				"summary": "Delete a employee by code",
+				"description": "Delete a specific employee based on the ID provided in the route",
 				"parameters": [
 					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"description": "ID del usuario a eliminar",
-						"schema": {
-							"type": "integer"
+						"code": {
+							"type": "integer",
+							"description": "Primary id of the employee with a width of 10"
 						}
 					}
 				],
 				"responses": {
-					"200": {
-						"description": "El usuario ha sido eliminado correctamente"
+					"204": {
+						"description": "The employee identified with: N has been deleted successfully"
 					},
-					"404": {
-						"description": "El usuario no ha sido encontrado"
+					"400": {
+						"description": "The employee does not exist in the database"
 					}
 				}
 			}
@@ -132,22 +162,40 @@
 	},
 	"components": {
 		"schemas": {
-			"Usuario": {
+			"Employee": {
 				"type": "object",
-				"required": ["nombre", "email", "edad"],
+				"required": [
+					"code",
+					"nif",
+					"name",
+					"firstLastName",
+					"secondLastName",
+					"department"
+				],
 				"properties": {
-					"nombre": {
-						"type": "string",
-						"description": "Nombre del usuario"
-					},
-					"email": {
-						"type": "string",
-						"format": "email",
-						"description": "Correo electrónico del usuario"
-					},
-					"edad": {
+					"code": {
 						"type": "integer",
-						"description": "Edad del usuario"
+						"description": "Primary id of the employee with a width of 10"
+					},
+					"nif": {
+						"type": "string",
+						"description": "Tax identification code with length is 9"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name the employee with max length of 100"
+					},
+					"firstLastName": {
+						"type": "string",
+						"description": "First Last name employee with max length of 100"
+					},
+					"secondLastName": {
+						"type": "string",
+						"description": "Second Last name employee with max length of 100"
+					},
+					"department": {
+						"type": "integer",
+						"description": "foreign code of department with a width of 10"
 					}
 				}
 			}
