@@ -4,7 +4,7 @@ WORKDIR /app
 COPY tsconfig.json .
 COPY package.json .
 COPY src/ .
-COPY scripts/ .
+COPY scripts/start.sh .
 
 RUN npm install --production
 RUN chmod +x scripts/start.sh
