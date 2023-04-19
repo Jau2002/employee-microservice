@@ -2,6 +2,7 @@ import cors from 'cors';
 import express, { type Application } from 'express';
 import morganBody from 'morgan-body';
 import swaggerUi from 'swagger-ui-express';
+import healthCheck from '../routes/check.route';
 import departmentsRoute from '../routes/departments.route';
 import employeesRoute from '../routes/employees.route';
 import type { CorsOptions, MorganBodyOptions } from './middlewares';
@@ -30,10 +31,12 @@ const morganBodyOptions: MorganBodyOptions = {
 
 morganBody(app, morganBodyOptions);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/healthz', healthCheck);
 
 app.use('/employees', departmentsRoute);
 
 app.use('/departments', employeesRoute);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;
