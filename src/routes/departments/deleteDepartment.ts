@@ -21,7 +21,7 @@ deleteDepartment.delete(
 			return !foundDepartment
 				? res.status(400).json({ message: 'The department does not exist' })
 				: res.status(204).json({
-						message: `The employee identified with: ${foundDepartment.code} has been deleted successfully`,
+						message: 'The employee has been deleted successfully',
 				  });
 		} catch (err) {
 			return res.status(404).json({ message: (err as Error).message });

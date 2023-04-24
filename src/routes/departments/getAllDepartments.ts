@@ -11,7 +11,7 @@ getAllDepartments.get(
 			const departments: Department[] = await listAllDepartments();
 
 			return res.status(200).json({
-				message: `${departments.length} Employees found`,
+				message: `${departments.length} Departments found`,
 				data: departments,
 			});
 		} catch (err) {
