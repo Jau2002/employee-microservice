@@ -33,9 +33,9 @@ morganBody(app, morganBodyOptions);
 
 app.use('/healthz', healthCheck);
 
-app.use('/employees', departmentsRoute);
+app.use('/employees', employeesRoute);
 
-app.use('/departments', employeesRoute);
+app.use('/departments', departmentsRoute);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
