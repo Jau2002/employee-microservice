@@ -10,6 +10,7 @@ async function listAllDepartments(): Promise<Department[]> {
 		order: {
 			name: 'ASC',
 		},
+		relations: ['employees'],
 	});
 	return allEmployees;
 }

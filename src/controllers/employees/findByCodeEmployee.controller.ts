@@ -10,6 +10,7 @@ async function findByCodeEmployee(code: number): Promise<Employee | null> {
 		where: {
 			code,
 		},
+		relations: ['department'],
 	});
 	return allEmployees;
 }
