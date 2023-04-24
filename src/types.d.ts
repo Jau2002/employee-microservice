@@ -14,8 +14,3 @@ declare global {
 }
 
 type Serve = Server<typeof IncomingMessage, typeof ServerResponse>;
-
-declare module '*.yaml' {
-	const value: any;
-	export default value;
-}

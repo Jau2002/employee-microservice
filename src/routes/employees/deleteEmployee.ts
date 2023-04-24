@@ -23,7 +23,7 @@ deleteEmployee.delete(
 						.status(400)
 						.json({ message: 'The employee does not exist in the database' })
 				: res.status(204).json({
-						message: `The employee identified with: ${employeeFound.code} has been deleted successfully`,
+						message: 'The employee has been deleted successfully',
 				  });
 		} catch (err) {
 			return res.status(404).json({ message: (err as Error).message });

@@ -15,7 +15,7 @@ getFindFirstDepartment.get(
 
 			return foundDepartment
 				? res.status(200).json({
-						message: 'Employee found successfully',
+						message: 'Department found successfully',
 						data: foundDepartment,
 				  })
 				: res
