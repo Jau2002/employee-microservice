@@ -4,19 +4,18 @@ import Department from '../../entity/Department';
 
 async function constructDepartment({
 	code,
-	employees,
-	estimate,
 	name,
+	estimate,
+	employees,
 }: Department): Promise<Department> {
 	const departmentRepository: Repository<Department> =
 		AppDataSource.getRepository(Department);
 
-	const createDepartment: Department = await departmentRepository.save({
-		code,
-		employees,
-		estimate,
-		name,
-	});
+	const department = new Department(code, name, estimate, employees);
+
+	const createDepartment: Department = await departmentRepository.save(
+		department
+	);
 	return createDepartment;
 }
 

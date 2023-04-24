@@ -1,26 +1,35 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import Employee from './Employee';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 @Entity()
 class Department {
+	constructor(
+		code: number,
+		name: string,
+		estimate: number,
+		employees?: Employee[]
+	) {
+		this.code = code;
+		this.name = name;
+		this.estimate = estimate;
+		this.employees = employees;
+	}
+
 	@PrimaryColumn({ primary: true, width: 10, type: 'int' })
-	code: number;
+	code;
 
 	@Column({ length: 100, type: 'varchar' })
-	name: string;
+	name;
 
 	@Column({ type: 'float8' })
-	estimate: number;
+	estimate;
 
 	@ManyToOne(
 		(): typeof Employee => Employee,
 		(employee: Employee): number => employee.code,
 		{ cascade: true }
 	)
-	employees: Employee[];
+	employees;
 }
 
 export default Department;
