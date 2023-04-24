@@ -9,14 +9,17 @@ async function builderEmployee(
 	const employeeRepository: Repository<Employee> =
 		AppDataSource.getRepository(Employee);
 
-	const createEmployee: Employee = await employeeRepository.save({
-		code: code ?? EmployeeCode,
-		department,
-		firstLastName,
-		name,
+	const employee = new Employee(
+		code ?? EmployeeCode,
 		nif,
+		name,
+		firstLastName,
 		secondLastName,
-	});
+		department
+	);
+
+	const createEmployee: Employee = await employeeRepository.save(employee);
+
 	return createEmployee;
 }
 

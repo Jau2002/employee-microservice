@@ -1,25 +1,38 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import Department from './Department';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 @Entity()
 class Employee {
+	constructor(
+		code: number,
+		nif: string,
+		name: string,
+		firstLastName: string,
+		secondLastName: string,
+		department: number
+	) {
+		this.code = code;
+		this.nif = nif;
+		this.name = name;
+		this.firstLastName = firstLastName;
+		this.secondLastName = secondLastName;
+		this.department = department;
+	}
+
 	@PrimaryColumn({ primary: true, width: 10, type: 'int' })
-	code: number;
+	code;
 
 	@Column({ length: 9, type: 'varchar' })
-	nif: string;
+	nif;
 
 	@Column({ length: 100, type: 'varchar' })
-	name: string;
+	name;
 
 	@Column({ length: 100, type: 'varchar' })
-	firstLastName: string;
+	firstLastName;
 
 	@Column({ length: 100, type: 'varchar' })
-	secondLastName: string;
+	secondLastName;
 
 	@ManyToOne(
 		(): typeof Department => Department,
@@ -27,7 +40,7 @@ class Employee {
 		{ cascade: true }
 	)
 	@JoinColumn({ name: 'department_code' })
-	department: number;
+	department;
 }
 
 export default Employee;
