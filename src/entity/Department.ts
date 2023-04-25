@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
 import Employee from './Employee';
 
 @Entity()
@@ -7,7 +7,7 @@ class Department {
 		code: number,
 		name: string,
 		estimate: number,
-		employees?: Employee[]
+		employees: Employee[] | null
 	) {
 		this.code = code;
 		this.name = name;
@@ -24,11 +24,11 @@ class Department {
 	@Column({ type: 'float8' })
 	estimate;
 
-	@ManyToOne(
+	@OneToMany(
 		(): typeof Employee => Employee,
-		(employee: Employee): number => employee.code,
-		{ cascade: true }
+		(employee: Employee): number => employee.department
 	)
+	@JoinColumn({ name: 'employees_code' })
 	employees;
 }
 

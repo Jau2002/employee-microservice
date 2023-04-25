@@ -36,8 +36,7 @@ class Employee {
 
 	@ManyToOne(
 		(): typeof Department => Department,
-		(department: Department): number => department.code,
-		{ cascade: true }
+		(department: Department): Employee[] | null => department.employees
 	)
 	@JoinColumn({ name: 'department_code' })
 	department;

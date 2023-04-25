@@ -1,4 +1,5 @@
 import { Router, type Request, type Response } from 'express';
+import constructDepartment from '../../controllers/departments/constructDepartment.controller';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import builderEmployee from '../../controllers/employees/builderEmployee.controller';
 import findByCodeEmployee from '../../controllers/employees/findByCodeEmployee.controller';
@@ -14,9 +15,12 @@ postEmployee.post(
 			body: { code, department },
 			body,
 		} = req;
+
+		const integer = (raw: string): number => parseInt(raw ?? '0');
+
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
-				parseInt(code ?? '0')
+				integer(code)
 			);
 
 			if (employeeFound) {
@@ -26,7 +30,7 @@ postEmployee.post(
 			}
 
 			const foundDepartment: Department | null = await findDepartmentByCode(
-				parseInt(department ?? '0')
+				integer(department)
 			);
 
 			if (!foundDepartment) {
@@ -34,6 +38,15 @@ postEmployee.post(
 					message: 'The department does not exist',
 				});
 			}
+
+			const injectDepartment = {
+				code: foundDepartment.code,
+				estimate: foundDepartment.estimate,
+				name: foundDepartment.name,
+				employees: employeeFound,
+			};
+
+			await constructDepartment(injectDepartment);
 
 			const employee: Employee = await builderEmployee(body);
 
