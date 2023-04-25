@@ -2,8 +2,8 @@ import { Router, type Request, type Response } from 'express';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import builderEmployee from '../../controllers/employees/builderEmployee.controller';
 import findByCodeEmployee from '../../controllers/employees/findByCodeEmployee.controller';
-import type Department from '../../entity/Department';
-import type Employee from '../../entity/Employee';
+import type Department from '../../entities/Department';
+import type Employee from '../../entities/Employee';
 
 const patchEmployee: Router = Router();
 

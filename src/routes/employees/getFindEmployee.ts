@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import findByCodeEmployee from '../../controllers/employees/findByCodeEmployee.controller';
-import type Employee from '../../entity/Employee';
+import type Employee from '../../entities/Employee';
 
 const getFindEmployee: Router = Router();
 

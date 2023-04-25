@@ -1,8 +1,8 @@
 import * as dotenv from 'dotenv';
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import Department from '../entity/Department';
-import Employee from '../entity/Employee';
+import Department from '../entities/Department';
+import Employee from '../entities/Employee';
 import CustomNamingStrategy from './customNamingStrategy';
 
 dotenv.config();

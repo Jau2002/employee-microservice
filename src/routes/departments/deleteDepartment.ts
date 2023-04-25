@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import { removeDepartment } from '../../controllers/departments/removeDepartment.controller';
-import type Department from '../../entity/Department';
+import type Department from '../../entities/Department';
 
 const deleteDepartment: Router = Router();
 

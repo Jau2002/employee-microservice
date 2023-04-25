@@ -1,6 +1,6 @@
 import type { Repository } from 'typeorm';
 import AppDataSource from '../../config/db';
-import Department from '../../entity/Department';
+import Department from '../../entities/Department';
 
 async function findDepartmentByCode(code: number): Promise<Department | null> {
 	const departmentRepository: Repository<Department> =

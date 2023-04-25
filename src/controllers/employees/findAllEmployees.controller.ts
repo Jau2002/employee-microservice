@@ -1,6 +1,6 @@
 import type { Repository } from 'typeorm';
 import AppDataSource from '../../config/db';
-import Employee from '../../entity/Employee';
+import Employee from '../../entities/Employee';
 
 async function findAllEmployees(): Promise<Employee[]> {
 	const employeeRepository: Repository<Employee> =

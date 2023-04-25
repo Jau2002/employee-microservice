@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import listAllDepartments from '../../controllers/departments/listAllDepartments.controller';
-import type Department from '../../entity/Department';
+import type Department from '../../entities/Department';
 
 const getAllDepartments: Router = Router();
 
