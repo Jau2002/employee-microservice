@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import schemaValidator from '../middlewares/schemaValidator.middleware';
+import { schemaEmployeeRequest } from '../schemas/employees/employee.schema';
 import deleteEmployee from './employees/deleteEmployee';
 import getAllEmployees from './employees/getAllEmployees';
 import getFindEmployee from './employees/getFindEmployee';
@@ -9,12 +11,24 @@ const employeesRoute: Router = Router();
 
 employeesRoute.use(getAllEmployees);
 
-employeesRoute.use(getFindEmployee);
+employeesRoute.use(
+	schemaValidator(schemaEmployeeRequest.deepPartial()),
+	getFindEmployee
+);
 
-employeesRoute.use(postEmployee);
+employeesRoute.use(
+	schemaValidator(schemaEmployeeRequest.deepPartial()),
+	postEmployee
+);
 
-employeesRoute.use(patchEmployee);
+employeesRoute.use(
+	schemaValidator(schemaEmployeeRequest.deepPartial()),
+	patchEmployee
+);
 
-employeesRoute.use(deleteEmployee);
+employeesRoute.use(
+	schemaValidator(schemaEmployeeRequest.deepPartial()),
+	deleteEmployee
+);
 
 export default employeesRoute;
