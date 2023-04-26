@@ -2,13 +2,18 @@ import { Router, type Request, type Response } from 'express';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import { removeDepartment } from '../../controllers/departments/removeDepartment.controller';
 import type Department from '../../entities/Department';
+import type { ParamsTypeDepartment } from '../../schemas/departments/department.schema';
 
 const deleteDepartment: Router = Router();
 
 deleteDepartment.delete(
 	'/:code',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (
+		req: Request<ParamsTypeDepartment>,
+		res: Response
+	): Promise<Response> => {
 		const { code } = req.params;
+
 		try {
 			const foundDepartment: Department | null = await findDepartmentByCode(
 				parseInt(code ?? '0')

@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import schemaValidator from '../middlewares/schemaValidator.middleware';
+import { schemaDepartmentRequest } from '../schemas/departments/department.schema';
 import deleteDepartment from './departments/deleteDepartment';
 import getAllDepartments from './departments/getAllDepartments';
 import getFindFirstDepartment from './departments/getFindFirstDepartment';
@@ -9,12 +11,24 @@ const departmentsRoute: Router = Router();
 
 departmentsRoute.use(getAllDepartments);
 
-departmentsRoute.use(getFindFirstDepartment);
+departmentsRoute.use(
+	schemaValidator(schemaDepartmentRequest.deepPartial()),
+	getFindFirstDepartment
+);
 
-departmentsRoute.use(postDepartment);
+departmentsRoute.use(
+	schemaValidator(schemaDepartmentRequest.deepPartial()),
+	postDepartment
+);
 
-departmentsRoute.use(patchDepartment);
+departmentsRoute.use(
+	schemaValidator(schemaDepartmentRequest.deepPartial()),
+	patchDepartment
+);
 
-departmentsRoute.use(deleteDepartment);
+departmentsRoute.use(
+	schemaValidator(schemaDepartmentRequest.deepPartial()),
+	deleteDepartment
+);
 
 export default departmentsRoute;

@@ -2,16 +2,24 @@ import { Router, type Request, type Response } from 'express';
 import constructDepartment from '../../controllers/departments/constructDepartment.controller';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import type Department from '../../entities/Department';
+import type {
+	BodyTypeDepartment,
+	ParamsTypeDepartment,
+} from '../../schemas/departments/department.schema';
 
 const patchDepartment: Router = Router();
 
 patchDepartment.patch(
 	'/:code',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (
+		req: Request<ParamsTypeDepartment, unknown, BodyTypeDepartment>,
+		res: Response
+	): Promise<Response> => {
 		const {
 			params: { code },
 			body,
 		} = req;
+
 		try {
 			const foundDepartment: Department | null = await findDepartmentByCode(
 				parseInt(code ?? '0')

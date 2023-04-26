@@ -2,19 +2,24 @@ import { Router, type Request, type Response } from 'express';
 import constructDepartment from '../../controllers/departments/constructDepartment.controller';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import type Department from '../../entities/Department';
+import type { BodyTypeDepartment } from '../../schemas/departments/department.schema';
 
 const postDepartment: Router = Router();
 
 postDepartment.post(
 	'/',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (
+		req: Request<unknown, unknown, BodyTypeDepartment>,
+		res: Response
+	): Promise<Response> => {
 		const {
 			body: { code },
 			body,
 		} = req;
+
 		try {
 			const foundDepartment: Department | null = await findDepartmentByCode(
-				parseInt(code ?? '0')
+				code
 			);
 
 			const newDepartment: Department = await constructDepartment(body);
