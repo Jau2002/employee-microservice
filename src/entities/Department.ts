@@ -7,7 +7,7 @@ class Department {
 		code: number,
 		name: string,
 		estimate: number,
-		employees: Employee[] | null
+		employees: Employee[]
 	) {
 		this.code = code;
 		this.name = name;
