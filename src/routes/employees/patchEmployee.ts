@@ -1,20 +1,29 @@
 import { Router, type Request, type Response } from 'express';
+import constructDepartment from '../../controllers/departments/constructDepartment.controller';
 import findDepartmentByCode from '../../controllers/departments/findDepartmentByCode.controller';
 import builderEmployee from '../../controllers/employees/builderEmployee.controller';
 import findByCodeEmployee from '../../controllers/employees/findByCodeEmployee.controller';
 import type Department from '../../entities/Department';
 import type Employee from '../../entities/Employee';
+import type {
+	BodyTypeEmployee,
+	ParamsTypeEmployee,
+} from '../../schemas/employees/employee.schema';
 
 const patchEmployee: Router = Router();
 
 patchEmployee.patch(
 	'/:code',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (
+		req: Request<ParamsTypeEmployee, unknown, BodyTypeEmployee>,
+		res: Response
+	): Promise<Response> => {
 		const {
 			params: { code },
 			body,
 			body: { department },
 		} = req;
+
 		try {
 			const employeeFound: Employee | null = await findByCodeEmployee(
 				parseInt(code ?? '0')
@@ -27,7 +36,7 @@ patchEmployee.patch(
 			}
 
 			const foundDepartment: Department | null = await findDepartmentByCode(
-				parseInt(department ?? '0')
+				department
 			);
 
 			if (!foundDepartment) {
@@ -40,6 +49,15 @@ patchEmployee.patch(
 				body,
 				employeeFound.code
 			);
+
+			const injectDepartment: any = {
+				code: foundDepartment.code,
+				estimate: foundDepartment.estimate,
+				name: foundDepartment.name,
+				employees: employee,
+			};
+
+			await constructDepartment(injectDepartment);
 
 			return res.status(200).json({
 				message: 'Employee found successfully',

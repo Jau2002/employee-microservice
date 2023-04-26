@@ -5,23 +5,23 @@ import builderEmployee from '../../controllers/employees/builderEmployee.control
 import findByCodeEmployee from '../../controllers/employees/findByCodeEmployee.controller';
 import type Department from '../../entities/Department';
 import type Employee from '../../entities/Employee';
+import type { BodyTypeEmployee } from '../../schemas/employees/employee.schema';
 
 const postEmployee: Router = Router();
 
 postEmployee.post(
 	'/',
-	async (req: Request, res: Response): Promise<Response> => {
+	async (
+		req: Request<unknown, unknown, BodyTypeEmployee>,
+		res: Response
+	): Promise<Response> => {
 		const {
 			body: { code, department },
 			body,
 		} = req;
 
-		const integer = (raw: string): number => parseInt(raw ?? '0');
-
 		try {
-			const employeeFound: Employee | null = await findByCodeEmployee(
-				integer(code)
-			);
+			const employeeFound: Employee | null = await findByCodeEmployee(code);
 
 			if (employeeFound) {
 				return res.status(409).json({
@@ -30,7 +30,7 @@ postEmployee.post(
 			}
 
 			const foundDepartment: Department | null = await findDepartmentByCode(
-				integer(department)
+				department
 			);
 
 			if (!foundDepartment) {
@@ -39,16 +39,16 @@ postEmployee.post(
 				});
 			}
 
-			const injectDepartment = {
+			const employee: Employee = await builderEmployee(body);
+
+			const injectDepartment: any = {
 				code: foundDepartment.code,
 				estimate: foundDepartment.estimate,
 				name: foundDepartment.name,
-				employees: employeeFound,
+				employees: employee,
 			};
 
 			await constructDepartment(injectDepartment);
-
-			const employee: Employee = await builderEmployee(body);
 
 			return res.status(200).json({
 				message: 'The employee has been created successfully',
